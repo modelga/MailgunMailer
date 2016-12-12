@@ -18,7 +18,6 @@ def login():
             error = 'Invalid credentials. Please try again.'
         else:
             user_data = User.query.filter_by(username=username).first()
-            # print("\nUSER DATA:", user_data, "\n")
             session.permanent = True
             app.permanent_session_lifetime = timedelta(minutes=720)
             session['logged_in'] = True

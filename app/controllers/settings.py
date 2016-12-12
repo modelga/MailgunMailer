@@ -42,7 +42,6 @@ def settings_profile_mg_change():
         mg_domain = request.form['mg_domain']
         mg_api_private = request.form['mg_api_private']
         mg_sender = request.form['mg_sender']
-        # print("MG Domain:", mg_domain, "MG API:", mg_api_private, "MG Sender:", mg_sender)
         edit_mg_settings(username, mg_domain, mg_api_private, mg_sender)
         return "Success. Settings Changed."
     except:
@@ -56,7 +55,6 @@ def settings_campaigns_add():
 
     try:
         campaign_name = request.form['campaign_name']
-        # print("Campaign name: ", campaign_name)
         mailgun_add_campaigns(campaign_name)
         return "Success. Campaign added."
     except:
@@ -70,7 +68,6 @@ def settings_campaigns_delete():
 
     try:
         campaign_name = request.form['campaign_name']
-        # print("Campaign name: ", campaign_name)
         mailgun_delete_campaigns(campaign_name)
         return "Success. Campaign Deleted."
     except:

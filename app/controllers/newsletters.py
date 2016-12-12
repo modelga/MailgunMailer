@@ -19,7 +19,6 @@ def newsletters_index():
 @login_required
 def newsletters_add():
     from app.models.Mailgun_Internal import mailgun_get_groups, mailgun_get_campaigns
-    username = session['username']
     mg_sender = session['mg_sender']
     mailgun_campaigns = mailgun_get_campaigns()
     recipients = mailgun_get_groups()
