@@ -139,6 +139,7 @@
 
                                     if (response.indexOf(problem_response) !== -1) {
                                         $('.responsed_data_mg_change').empty().append('<br /><div class="alert alert-danger">Problem occurred <br/>' + response + '</div>');
+                                        location.reload();
                                     } else {
 
                                         $('.responsed_data_mg_change').empty().append('<br /><div class="alert alert-success">' + response + '</div>');

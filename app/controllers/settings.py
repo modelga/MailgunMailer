@@ -24,9 +24,8 @@ def settings_profile_pw_change():
 
     try:
         password = request.form['password']
-        username = session['username']
         pw_hash = generate_password_hash(password).decode('utf8')
-        edit_password(username, pw_hash)
+        edit_password(pw_hash)
 
         return "Success. Password Changed."
     except:
@@ -38,11 +37,10 @@ def settings_profile_pw_change():
 def settings_profile_mg_change():
     from app.models.Settings import edit_mg_settings
     try:
-        username = session['username']
         mg_domain = request.form['mg_domain']
         mg_api_private = request.form['mg_api_private']
         mg_sender = request.form['mg_sender']
-        edit_mg_settings(username, mg_domain, mg_api_private, mg_sender)
+        edit_mg_settings(mg_domain, mg_api_private, mg_sender)
         return "Success. Settings Changed."
     except:
         return "Problem occurred. Contact system administrator"
