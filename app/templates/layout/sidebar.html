@@ -1,0 +1,68 @@
+<!-- Navigation -->
+<header class="header">
+    <div class="header-block header-block-collapse hidden-lg-up">
+        <button class="collapse-btn" id="sidebar-collapse-btn"><i class="fa fa-bars"></i></button>
+    </div>
+    <!--<div class="header-block header-block-buttons"> Mailer </div> -->
+    <div class="header-block header-block-nav">
+        <ul class="nav-profile">
+            <li class="profile dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    <div class="img"
+                         style="background-image: url('https://www.gravatar.com/avatar/{{ session['gravatar'] }}')"></div>
+                    <span class="name"> {{ session['name_1'] }} {{ session['name_2'] }} </span> </a>
+                <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <a class="dropdown-item" href="{{ url_for('newsletters_index') }}"><i
+                            class="fa fa-envelope-o fa-fw"></i> Newsletters</a>
+                    <a class="dropdown-item" href="{{ url_for('settings_profile') }}"><i class="fa fa-user fa-fw"></i>
+                        Profile</a>
+                    {% if session['admin'] == True %}
+                        <a class="dropdown-item" href="{{ url_for('admin_index') }}"><i
+                                class="fa fa-dashboard fa-fw"></i> Admin</a>
+                    {% endif %}
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout"> <i class="fa fa-power-off icon"></i> Logout </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<aside class="sidebar">
+    <div class="sidebar-container">
+        <div class="sidebar-header">
+            <div class="brand">
+                <div class="logo"></div>
+                <a href="/">Mailer Admin</a></div>
+        </div>
+        <nav class="menu">
+            <ul class="nav" id="sidebar-menu">
+                <li>
+                    <a href="{{ url_for('newsletters_index') }}"><i class="fa fa-envelope-o fa-fw"></i> Newsletters</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('settings_profile') }}"><i class="fa fa-user fa-fw"></i> Profile</a>
+                </li>
+                {% if session['admin'] == True %}
+                    <li id="admin_index">
+                        <a href="{{ url_for('admin_index') }}"><i class="fa fa-dashboard fa-fw"></i> Admin</a>
+                    </li>
+                {% endif %}
+                <li><hr></li>
+                <li><hr></li>
+                <li><a class="dropdown-item" href="/logout"> <i class="fa fa-power-off icon"></i> Logout </a></li>
+            </ul>
+        </nav>
+    </div>
+    <footer class="sidebar-footer">
+        <ul class="nav metismenu" id="customize-menu">
+            <li>
+                <a href="https://github.com/modularcode/modular-admin-html" target="_blank"> <i
+                        class="fa fa-github-alt"></i>ModularAdmin Theme</a>
+            </li>
+        </ul>
+    </footer>
+</aside>
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+<!-- /Navigation -->

@@ -1,0 +1,38 @@
+{% include 'layout/header.html' %}
+
+<body>
+<div class="auth">
+    <div class="auth-container">
+        <div class="card">
+            <header class="auth-header">
+                <h1 class="auth-title">MailerAdmin</h1></header>
+            <div class="auth-content">
+                <p class="text-xs-center">LOGIN TO CONTINUE</p>
+                <form id="login-form" action="" method="post" role="form">
+                    <div class="form-group"><label for="username">Username</label> <input type="email"
+                                                                                          class="form-control underlined"
+                                                                                          name="username" id="username"
+                                                                                          placeholder="Your email address"
+                                                                                          required></div>
+                    <div class="form-group"><label for="password">Password</label> <input type="password"
+                                                                                          class="form-control underlined"
+                                                                                          name="password" id="password"
+                                                                                          placeholder="Your password"
+                                                                                          required></div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-block btn-primary">Login</button>
+                    </div>
+                </form>
+                {% if error %}
+                    <div class="alert alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        <strong>Error! : </strong> {{ error }}.
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

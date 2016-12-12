@@ -1,0 +1,94 @@
+{% extends "layout/layout.html" %}
+{% block content %}
+    <article class="content item-editor-page">
+        <div class="title-block">
+            <h3 class="title"> Add new Newsletter </h3>
+        </div>
+
+        <form action="{{ url_for('newsletters_submit') }}" method="post" id="item" name="item">
+            <div class="card card-block">
+                <div class="form-group row"><label class="col-sm-2 form-control-label text-xs-right"> Name / Message
+                    Subject: </label>
+                    <div class="col-sm-10">
+                        <input id="subject" name="subject" type="text" class="form-control boxed"
+                               placeholder="Newsletter Subject" value="Newsletter Name">
+                    </div>
+                </div>
+
+                <div class="form-group row"><label class="col-sm-2 form-control-label text-xs-right"> Target Mail
+                    Groups</label>
+                    <div class="col-sm-10">
+                        {% if recipients |length < 1 %}
+                        <input id="recipients" name="recipients" type="text" class="form-control" value="recipient@example.com">
+                        {% else %}
+                        <select class="c-select form-control boxed" id="recipients" name="recipients">
+                            {% for recipient in recipients %}
+                                <option value="{{ recipient }}">{{ recipient }}</option>
+                            {% endfor %}
+                        </select>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="form-group row"><label class="col-sm-2 form-control-label text-xs-right"> Sender
+                    Info </label>
+                    <div class="col-sm-10">
+                        <input id="sender" name="sender" type="text" class="form-control"
+                               value="{{ mg_sender }}">
+                    </div>
+                </div>
+
+                <div class="form-group row"><label class="col-sm-2 form-control-label text-xs-right"> Tags </label>
+                    <div class="col-sm-4">
+                        <input id="tags" name="tags" type="text" class="form-control" value="Newsletter">
+                    </div>
+                    <label class="col-sm-2 form-control-label text-xs-right"> Campaign </label>
+                    <div class="col-sm-4">
+                        <select class="c-select form-control boxed" id="campaign" name="campaign">
+                            {% for campaign in mailgun_campaigns %}
+                                <option value="{{ campaign }}">{{ campaign }}</option>
+                            {% endfor %}
+                            <option disabled> Add more Campaigns in Accounts Settings</option>
+                            {% if mailgun_campaigns |length < 1 %}
+                                <option value="Campaign">Campaign</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row"><label class="col-sm-2 form-control-label text-xs-right"> Message </label>
+                    <div class="col-sm-10">
+                        <textarea rows="15" class="form-control" id="message" name="message"><h2>Your message here!</h2></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button type="submit" class="btn btn-primary"> Add New Newsletter</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </article>
+
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            height: 500,
+            plugins: [
+                "advlist autolink lists link image charmap print preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime table contextmenu paste imagetools"
+            ],
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code preview | Unsubscribe_Newsletter",
+            setup: function (editor) {
+                editor.addButton('Unsubscribe_Newsletter', {
+                    text: 'Newsletter Unsubscribe',
+                    icon: false, onclick: function () {
+                        editor.insertContent('<a href = %mailing_list_unsubscribe_url%>Unsubscribe</a>');
+                    }
+                });
+            },
+        });
+    </script>
+{% endblock %}

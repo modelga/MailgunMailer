@@ -1,0 +1,246 @@
+{% extends "layout/layout.html" %}
+{% block content %}
+    <article class="content items-list-page" xmlns="http://www.w3.org/1999/html">
+        <div class="title-search-block">
+            <div class="title-block">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="title">
+                            Newsletters
+                            <a href="{{ url_for('newsletters_add') }}" class="btn btn-primary btn-sm rounded-s">
+                                Add New
+                            </a>
+                            <div class="action dropdown">
+                                <button class="btn  btn-sm rounded-s btn-secondary dropdown-toggle" type="button"
+                                        id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    More actions...
+                                </button>
+                                <div class="dropdown-menu" id="batch_delete" aria-labelledby="dropdownMenu1">
+                                    <a class="dropdown-item text-danger" href="#"><i class="fa fa-close icon"></i>Delete</a>
+                                </div>
+                            </div>
+                        </h3>
+                        <p class="title-description"> List of my newsletters... </p>
+                    </div>
+                </div>
+            </div>
+            <div class="items-search">
+                <form class="form-inline">
+                    <div class="input-group"><input type="text" class="form-control boxed rounded-s"
+                                                    placeholder="Search for..."> <span class="input-group-btn">
+                    <button class="btn btn-secondary rounded-s" type="button">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </span></div>
+                </form>
+            </div>
+        </div>
+        <div class="card items">
+            <ul class="item-list striped">
+                <li class="item item-list-header hidden-sm-down">
+                    <div class="item-row">
+                        <div class="item-col fixed item-col-check"><label class="item-check" id="select-all-items">
+                            <input type="checkbox" class="checkbox">
+                            <span></span>
+                        </label></div>
+                        <div class="item-col item-col-header item-col-title">
+                            <div><span>Newsletter Name</span></div>
+                        </div>
+                        <div class="item-col item-col-header item-col-category">
+                            <div class="no-overflow"><span>Tags</span></div>
+                        </div>
+                        <div class="item-col item-col-header item-col-category">
+                            <div class="no-overflow"><span>Campaign</span></div>
+                        </div>
+                        <div class="item-col item-col-header item-col-author">
+                            <div class="no-overflow"><span>Mail Group</span></div>
+                        </div>
+                        <div class="item-col item-col-header item-col-stats">
+                            <div class="no-overflow"><span>Status</span></div>
+                        </div>
+                        <div class="item-col item-col-header item-col-date">
+                            <div><span>Created</span></div>
+                        </div>
+                        <div class="item-col item-col-header fixed item-col-actions-dropdown"></div>
+                    </div>
+                </li>
+
+                {% if user_newsletters |length < 1 %}
+
+                    <div><p>
+                        <h2>
+                            <center>No newsletters found. Simply create one : <a
+                                    href="{{ url_for('newsletters_add') }}">Add Newsletter</a></center>
+                        </h2>
+                        </p></div>
+
+                {% endif %}
+
+                {% for newsletter in user_newsletters %}
+                    <!-- ITEM -->
+                    <li class="item p_{{ newsletter['id'] }}" id="{{ newsletter['id'] }}">
+                        <div class="item-row">
+                            <div class="item-col fixed item-col-check"><label class="item-check" id="select-all-items">
+                                <input type="checkbox" class="checkbox" id="{{ newsletter['id'] }}">
+                                <span></span>
+                            </label></div>
+                            <div class="item-col fixed pull-left item-col-title">
+                                <div class="item-heading">Newsletter Name</div>
+                                <div>
+                                    <a href="{{ url_for('newsletters_edit', newsletter_id=newsletter['id']) }}"
+                                       class="">
+                                        <h4 class="item-title">
+                                            {{ newsletter['subject'] }}
+                                        </h4></a>
+                                </div>
+                            </div>
+                            <div class="item-col item-col-category no-overflow">
+                                <div class="item-heading">Tags</div>
+                                <div class="no-overflow"> {{ newsletter['tags'] }} </div>
+                            </div>
+                            <div class="item-col item-col-category no-overflow">
+                                <div class="item-heading">Campaign</div>
+                                <div class="no-overflow"> {{ newsletter['campaign'] }} </div>
+                            </div>
+                            <div class="item-col item-col-author">
+                                <div class="item-heading">Mail Group</div>
+                                <div class="no-overflow"> {{ newsletter['recipients'] }} </div>
+                            </div>
+                            <div class="item-col item-col-stats no-overflow">
+                                <div class="item-heading">Status</div>
+                                <div class="no-overflow" id="item_body_{{ newsletter['id'] }}">
+
+                                    {% if (newsletter['mg_status']) == True %}
+                                        <div class="no-overflow pull-left" style="color:green"><strong>Sent</strong>
+                                        </div>
+                                        <div class="no-overflow pull-right">
+                                            <button class="btn btn-primary btn-sm rounded-s"
+                                                    id="item_send_{{ newsletter['id'] }}">Resend
+                                            </button>
+                                        </div>
+                                    {% else %}
+                                        <div class="no-overflow pull-left" style="color:orange"><strong>Not
+                                            Sent</strong></div>
+                                        <div class="no-overflow pull-right">
+                                            <button class="btn btn-primary btn-sm rounded-s"
+                                                    id="item_send_{{ newsletter['id'] }}">Send
+                                            </button>
+                                        </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="item-col item-col-date">
+                                <div class="item-heading">Published</div>
+                                <div class="no-overflow"> {{ newsletter['creation_date'].strftime('%d-%m-%Y') }} </div>
+                            </div>
+                            <div class="item-col fixed item-col-actions-dropdown">
+                                <div class="item-actions-dropdown">
+                                    <a class="item-actions-toggle-btn"> <span class="inactive">
+                                        <i class="fa fa-cog"></i>
+                                        </span> <span class="active">
+                                        <i class="fa fa-chevron-circle-right"></i>
+                                        </span>
+                                    </a>
+                                    <div class="item-actions-block">
+                                        <ul class="item-actions-list">
+                                            <li>
+                                                <a class="remove"
+                                                   href="{{ url_for('newsletters_delete', newsletter_id=newsletter['id']) }}">
+                                                    <i class="fa fa-trash-o "></i> </a>
+                                            </li>
+                                            <li>
+                                                <a class="edit"
+                                                   href="{{ url_for('newsletters_edit', newsletter_id=newsletter['id']) }}">
+                                                    <i class="fa fa-pencil"></i> </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- /ITEM -->
+                {% endfor %}
+
+            </ul>
+        </div>
+    </article>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.1.1.js') }}"></script>
+    <script>
+        $(function () {
+            $('li').mouseenter(function () {
+                $item_id = $(this).attr('id');
+                console.log("Item ID: " + $item_id);
+                $send_button = '#item_send_' + $item_id;
+                console.log("Send Button: " + $send_button);
+                $item_body = '#item_body_' + $item_id;
+                console.log("Item Body: " + $send_button);
+
+                $(this).find('button').removeClass('disabled');
+
+                $($send_button).click(function () {
+                    console.log("Send Button " + $send_button + " Clicked");
+                    $($item_body).empty().append('<center><button class="btn btn-danger btn-sm rounded-s" id="item_warn_send_' + $item_id + '">Yes Send Newsletter !</button></center>');
+                    $warn_send = '#item_warn_send_' + $item_id;
+                    console.log("Warn Send Button: " + $warn_send);
+
+                    // Warn Send Button Action
+                    $($warn_send).click(function () {
+                        var newsletter_id = $item_id;
+                        $.ajax({
+                            url: '{{ url_for('newsletters_send') }}',
+                            data: ("newsletter_id=" + newsletter_id),
+                            type: 'POST',
+                            success: function (response) {
+                                console.log(response);
+                                $($item_body).empty().append('<center><b>Message Response:</b><br />' + response + '</center>');
+                                window.setTimeout(function () {
+                                    window.location.href = "/";
+                                }, 500);
+                            }
+                        });
+
+                    });
+                    // /Warn Send Button Action
+
+                });
+                console.log('ID ' + $(this).attr('id'));
+            }).mouseleave(function () {
+                $(this).find('button').addClass('disabled');
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $(".checkbox").click(function () {
+                console.log("Checkbox Name: " + $(this).attr('id'));
+                console.log("Checkbox ID: " + $(this).parent().attr('id'));
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $('#batch_delete').click(function () {
+                console.log("Delete Clicked");
+                $("input:checkbox").each(function () {
+                    if ($(this).prop('checked') == true && (typeof $(this).attr('id') != 'undefined')) {
+                        console.log($(this).prop('checked'));
+                        console.log($(this).attr('id'));
+
+                        $.ajax({
+                            url: '{{ url_for("newsletters_delete", newsletter_id="") }}' + $(this).attr("id"),
+                            type: 'GET',
+                            success: function () {
+                                console.log("OK DELETED" + '{{ url_for("newsletters_delete", newsletter_id="") }}' + $(this).attr("id"));
+                                window.location.href = "/";
+                            }
+                        });
+                    }
+                });
+            })
+        });
+    </script>
+{% endblock %}

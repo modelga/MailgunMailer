@@ -1,0 +1,349 @@
+{% extends "layout/layout.html" %}
+{% block content %}
+    <article class="content">
+
+        <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
+            <!-- Profile Settings -->
+            <div class="row">
+                <div class="col-lg-7">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <div class="header-block">
+                                <h4 class="title">Edit Profile</h4>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <form>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Company</label>
+                                            <input type="text" class="form-control border-input" disabled
+                                                   placeholder="Company" value="{{ user_data['company'] }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Username/E-Mail</label>
+                                            <input type="text" class="form-control border-input" placeholder="Username"
+                                                   value="{{ user_data['username'] }}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control border-input"
+                                                   placeholder="First Name"
+                                                   value="{{ user_data['name_1'] }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control border-input" placeholder="Last Name"
+                                                   value="{{ user_data['name_2'] }}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <input type="text" class="form-control border-input"
+                                                   placeholder="Home Address"
+                                                   value="{{ user_data['address'] }}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                        <div class="card-footer responsed_data_profile_change">
+                            <button class="btn btn-info btn-fill btn-wd text-center" id="profile_changer"
+                                    type="button">Update Profile
+                            </button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                <!-- Mailgun Related Settings -->
+                <div class="col-lg-5">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <div class="header-block">
+                                <h4 class="title">Edit Mailgun Account</h4>
+                            </div>
+                        </div>
+                        <div class="card-block">
+                            <form action="{{ url_for('settings_profile_mg_change') }}" method="POST">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>MG Domain</label>
+                                            <input type="text" class="form-control border-input"
+                                                   id="mg_domain" name="mg_domain" value="{{ user_data['mg_domain'] }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>MG API Private Key</label>
+                                            <input type="text" class="form-control border-input" id="mg_api_private"
+                                                   name="mg_api_private" value="{{ user_data['mg_api_private'] }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>MG Sender</label>
+                                            <input type="text" class="form-control border-input" id="mg_sender"
+                                                   name="mg_sender" value="{{ user_data['mg_sender'] }}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                        <div class="card-footer responsed_data_mg_change">
+                            <button class="btn btn-info btn-fill btn-wd text-center" id="mg_changer"
+                                    type="button">Update MG Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript"
+                        src="{{ url_for('static', filename='js/jquery-3.1.1.js') }}"></script>
+                <script>
+                    $(document).ready(function () {
+                        $('#mg_changer').click(function () {
+                            var mg_domain = $('#mg_domain').val();
+                            var mg_api_private = $('#mg_api_private').val();
+                            var mg_sender = $('#mg_sender').val();
+                            $.ajax({
+                                url: '{{ url_for('settings_profile_mg_change') }}',
+                                data: $('form').serialize(),
+                                type: 'POST',
+                                success: function (response) {
+                                    console.log(response);
+                                    var problem_response = "Problem";
+
+                                    if (response.indexOf(problem_response) !== -1) {
+                                        $('.responsed_data_mg_change').empty().append('<br /><div class="alert alert-danger">Problem occurred <br/>' + response + '</div>');
+                                    } else {
+
+                                        $('.responsed_data_mg_change').empty().append('<br /><div class="alert alert-success">' + response + '</div>');
+                                        location.reload();
+                                    }
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                }
+                            });
+                        });
+                    });
+                </script>
+                <!-- /Mailgun Related Settings -->
+
+            </div>
+            <!-- /Profile Settings -->
+
+            <hr>
+
+            <div class="row">
+                <div class="col-lg-12">
+                <!-- Password Settings -->
+                <div class="card card-warning">
+                    <div class="card-header">
+                        <div class="header-block">
+                            <h4 class="title">Change Password</h4>
+                        </div>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            <form action="{{ url_for('settings_profile_pw_change') }}" method="POST">
+                                <div class="col-md-6"><input type="password" id="password0" name="password0"
+                                                             placeholder="Password"
+                                                             class="form-control border-input"
+                                                             required></div>
+                                <div class="col-md-6"><input type="password" id="password" name="password"
+                                                             placeholder="Retype Password"
+                                                             class="form-control border-input" required></div>
+                                <div class="responsed_data_pw text-center col-md-12"></div>
+                            </form>
+                            <script type="text/javascript"
+                                    src="{{ url_for('static', filename='js/jquery-3.1.1.js') }}"></script>
+                            <script>
+                                $(function () {
+                                    $('#pwchanger').click(function () {
+                                        var password0 = $('#password0').val();
+                                        var password = $('#password').val();
+                                        if (password0 == password) {
+                                            $.ajax({
+                                                url: '{{ url_for('settings_profile_pw_change') }}',
+                                                data: $('form').serialize(),
+                                                type: 'POST',
+                                                success: function (response) {
+                                                    console.log(response);
+                                                    var problem_response = "Problem";
+
+                                                    if (response.indexOf(problem_response) !== -1) {
+                                                        $('.responsed_data_pw').empty().append('<br /><div class="alert alert-danger">Empty Password or Password Missmatch <br/>' + response + '</div>');
+                                                    } else {
+
+                                                        $('.responsed_data_pw').empty().append('<br /><div class="alert alert-success">' + response + '</div>');
+                                                    }
+                                                },
+                                                error: function (error) {
+                                                    console.log(error);
+                                                }
+                                            });
+                                        } else {
+                                            $('.responsed_data_pw').empty().append('<div class="alert alert-danger">Empty Password or Password Missmatch</div>');
+                                        }
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-warning btn-fill btn-wd text-center" id="pwchanger"
+                                type="button">Change Password
+                        </button>
+                    </div>
+                </div>
+                <!-- /Password Settings -->
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Campaigns Settings -->
+            <div class="row">
+                    <div class="container-fluid" xmlns="http://www.w3.org/1999/html">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <div class="header-block">
+                                    <h4 class="title">Campaigns</h4>
+                                </div>
+                            </div>
+                            <div class="card-block" id="campaigns">
+                                {% for campaign in campaigns %}
+                                    <div class="row">
+                                        <div class="pull-left">
+                                            {{ campaign }}
+                                        </div>
+                                        <div class="pull-right" style="color:red">
+                                            <button class="btn btn-danger btn-wd" id="campaign_del"
+                                                    cmp_number="{{ campaign }}"
+                                                    type="button">Delete Campaign
+                                            </button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="card-footer responsed_data_delete text-center"></div>
+                        </div>
+                    </div>
+                    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.1.1.js') }}"></script>
+                    <script>
+                        $(document).ready(function () {
+                            $('#campaigns button').click(function () {
+                                var campaign_name = $(this).attr('cmp_number');
+                                console.log("Campaign ID: " + campaign_name);
+                                $.ajax({
+                                    url: '{{ url_for('settings_campaigns_delete') }}',
+                                    data: ("campaign_name=" + campaign_name),
+                                    type: 'POST',
+                                    success: function (response) {
+                                        console.log(response);
+                                        var problem_response = "Problem";
+
+                                        if (response.indexOf(problem_response) !== -1) {
+                                            $('.responsed_data_delete').empty().append('<br /><div class="alert alert-danger">Problem occurred <br/>' + response + '</div>');
+                                        } else {
+
+                                            $('.responsed_data_delete').empty().append('<br /><div class="alert alert-success">' + response + '</div>');
+                                            location.reload();
+                                        }
+                                    },
+                                    error: function (error) {
+                                        console.log(error);
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                    <div class="col-lg-6">
+                        <div class="card card-success">
+                            <div class="card-header">
+                                <div class="header-block">
+                                    <h4 class="title">Add Campaign</h4>
+                                </div>
+                            </div>
+                            <div class="card-block">
+                                <div class="row">
+                                    <form action="{{ url_for('settings_campaigns_add') }}" method="POST">
+
+                                        <div><input type="text" id="campaign_name" name="campaign_name"
+                                                    placeholder="Campaign Name"
+                                                    class="form-control border-input" required></div>
+                                        <div class="responsed_data_campaign text-center col-md-12"></div>
+                                    </form>
+                                    <script type="text/javascript"
+                                            src="{{ url_for('static', filename='js/jquery-3.1.1.js') }}"></script>
+                                    <script>
+                                        $(function () {
+                                            $('#campaign_add').click(function () {
+                                                var campaign_name = $('#campaign_name').val();
+                                                $.ajax({
+                                                    url: '{{ url_for('settings_campaigns_add') }}',
+                                                    data: $('form').serialize(),
+                                                    type: 'POST',
+                                                    success: function (response) {
+                                                        console.log(response);
+                                                        var problem_response = "Problem";
+
+                                                        if (response.indexOf(problem_response) !== -1) {
+                                                            $('.responsed_data_campaign').empty().append('<br /><div class="alert alert-danger">Problem occurred <br/>' + response + '</div>');
+                                                        } else {
+
+                                                            $('.responsed_data_campaign').empty().append('<br /><div class="alert alert-success">' + response + '</div>');
+                                                            location.reload();
+                                                        }
+                                                    },
+                                                    error: function (error) {
+                                                        console.log(error);
+                                                    }
+                                                });
+
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-info btn-fill btn-wd text-center" id="campaign_add"
+                                        type="button">Add Campaign
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <!-- /Campaigns Settings -->
+        </div>
+    </article>
+{% endblock %}
