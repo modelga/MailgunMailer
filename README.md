@@ -7,8 +7,8 @@ Huge thanks for awesome Bootstrap 4 Admin theme to https://github.com/modularcod
 
 **Usage :**  
 1) Rename app/config.py.example to app/config.py. Edit and add db connection information  
-2) Run db_seed.py to create database tables and example data  
-3) Run app with your favorite app server and login as : admin@example.com / admin  
+2) Run ``` python db_seed.py ``` to create database tables and example data  
+3) Run app with your favorite app server, navigate to your hostname and port 8090 (or custom defined on app server) and login as : admin@example.com / admin  
 
 <p align="center">
 <img src="https://s30.postimg.org/m1l879kg1/image.jpg"/>
