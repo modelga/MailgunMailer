@@ -355,7 +355,7 @@ body {
 .btn {
     background-image: none;
     border-radius: 0;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 
 .btn.btn-primary {
@@ -1811,7 +1811,7 @@ label,
 
 .item-list .item-actions-dropdown {
     position: relative;
-    font-size: 1.1rem;
+    /* font-size: 1rem; */
 }
 
 .item-list .item-actions-dropdown.active .item-actions-block {
@@ -2498,6 +2498,7 @@ pre {
 
 .dashboard-page .items .item-list .item-col-date {
     text-align: right;
+    vertical-align: middle;
 }
 
 @media (min-width: 1200px) {

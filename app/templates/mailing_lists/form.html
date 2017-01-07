@@ -1,0 +1,9 @@
+<div>
+    <form action="{{ app_domain }}{{ url_for('mailing_lists_api') }}" method="post" style="margin: 0; padding: 0;">
+        Please enter your E-Mail:
+        <input style="display: inline;" name="member_email" type="text" required>
+        <input hidden name="user_email" value="{{ mailing_list.user_email_md5 }}">
+        <input hidden name="mailing_list_email" value="{{ mailing_list.mailing_list_email_md5 }}">
+        <input style="display: inline;" type="submit" value="Subscribe">
+    </form>
+</div>

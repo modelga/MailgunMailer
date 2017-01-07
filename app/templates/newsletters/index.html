@@ -1,7 +1,6 @@
 {% extends "layout/layout.html" %}
 {% block content %}
     <article class="content items-list-page" xmlns="http://www.w3.org/1999/html">
-        <div class="title-search-block">
             <div class="title-block">
                 <div class="row">
                     <div class="col-md-6">
@@ -25,7 +24,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         <div class="card items">
             <ul class="item-list striped">
                 <li class="item item-list-header hidden-sm-down">
@@ -48,6 +46,9 @@
                         </div>
                         <div class="item-col item-col-header item-col-stats">
                             <div class="no-overflow"><span>Status</span></div>
+                        </div>
+                        <div class="item-col item-col-header item-col-stats">
+                            <div class="no-overflow"><span>Send</span></div>
                         </div>
                         <div class="item-col item-col-header item-col-date">
                             <div><span>Created</span></div>
@@ -99,20 +100,30 @@
                             </div>
                             <div class="item-col item-col-stats no-overflow">
                                 <div class="item-heading">Status</div>
-                                <div class="no-overflow" id="item_body_{{ newsletter['id'] }}">
+                                <div class="no-overflow">
 
                                     {% if (newsletter['mg_status']) == True %}
-                                        <div class="no-overflow pull-left" style="color:green"><strong>Sent</strong>
+                                        <div class="no-overflow" style="color:green"><strong>Sent</strong>
                                         </div>
-                                        <div class="no-overflow pull-right">
+                                    {% else %}
+                                        <div class="no-overflow" style="color:orange"><strong>Not
+                                            Sent</strong></div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+                            <div class="item-col item-col-stats">
+                                <div class="item-heading">Send</div>
+                                <div id="item_body_{{ newsletter['id'] }}">
+
+                                    {% if (newsletter['mg_status']) == True %}
+                                        <div class="">
                                             <button class="btn btn-primary btn-sm rounded-s"
                                                     id="item_send_{{ newsletter['id'] }}">Resend
                                             </button>
                                         </div>
                                     {% else %}
-                                        <div class="no-overflow pull-left" style="color:orange"><strong>Not
-                                            Sent</strong></div>
-                                        <div class="no-overflow pull-right">
+                                        <div class="">
                                             <button class="btn btn-primary btn-sm rounded-s"
                                                     id="item_send_{{ newsletter['id'] }}">Send
                                             </button>
@@ -123,7 +134,7 @@
                             </div>
                             <div class="item-col item-col-date">
                                 <div class="item-heading">Published</div>
-                                <div class="no-overflow"> {{ newsletter['creation_date'].strftime('%d-%m-%Y') }} </div>
+                                <div class="no-overflow" id="item_date_{{ newsletter['id'] }}"> {{ newsletter['creation_date'].strftime('%d-%m-%Y') }} </div>
                             </div>
                             <div class="item-col fixed item-col-actions-dropdown">
                                 <div class="item-actions-dropdown">
@@ -167,13 +178,15 @@
                 $send_button = '#item_send_' + $item_id;
                 console.log("Send Button: " + $send_button);
                 $item_body = '#item_body_' + $item_id;
+                $item_date = '#item_date_' + $item_id;
                 console.log("Item Body: " + $send_button);
 
                 $(this).find('button').removeClass('disabled');
 
                 $($send_button).click(function () {
                     console.log("Send Button " + $send_button + " Clicked");
-                    $($item_body).empty().append('<center><button class="btn btn-danger btn-sm rounded-s" id="item_warn_send_' + $item_id + '">Yes Send Newsletter !</button></center>');
+                    $($item_date).empty();
+                    $($item_body).empty().append('<center><button class="btn btn-danger btn-sm rounded-s no-overflow" id="item_warn_send_' + $item_id + '">Yes Send Newsletter !</button></center>');
                     $warn_send = '#item_warn_send_' + $item_id;
                     console.log("Warn Send Button: " + $warn_send);
 

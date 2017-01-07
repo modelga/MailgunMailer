@@ -1,0 +1,24 @@
+{% extends "layout/layout.html" %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='css/prism.css') }}" data-noprefix rel="stylesheet"/>
+{% endblock %}
+{% block content %}
+    <article class="content item-editor-page">
+        <div class="title-block">
+            <h3 class="title"> Mailing List to URL and Form Mapping</h3>
+        </div>
+        <b>Target Mailing List E-Mail : </b> {{ mailing_list_email }} <br/>
+        <b>Mailing List url : </b><a href="https://mailer.seedbox.sk/mailing_lists/api?id={{ creation_result['id'] }}" target="_blank">https://mailer.seedbox.sk/mailing_lists/api?id={{ creation_result['id'] }}</a>
+        <br/><br/>
+        <b>Form Code :</b><br/>
+        <pre><code class="language-html"> {{ form_template }} </code></pre>
+
+    </article>
+
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/prism.js') }}"></script>
+{% endblock %}

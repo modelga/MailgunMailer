@@ -1,0 +1,15 @@
+{% extends "layout/layout.html" %}
+{% block content %}
+    <article class="content item-editor-page">
+        <div class="title-block">
+            <h3 class="title"> Mailing List : {{ mg_data['name'] }} ({{ mg_data['address'] }}) Members</h3>
+        </div>
+
+        {% for member in members %}
+            {{ member['address'] }} <br />
+        {% endfor %}
+
+
+    </article>
+
+{% endblock %}

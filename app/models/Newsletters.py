@@ -28,8 +28,6 @@ def edit_add_newsletter(username, subject, message, recipients, sender, tags, ca
 def send_newsletter(newsletter_id):
     from app.models.Mailgun_Internal import mailgun_send_newsletter
     username = session['username']
-    mg_api_private = session['mg_api_private']
-    mg_domain = session['mg_domain']
     newsletter = Newsletter.query.filter_by(username=username, id=newsletter_id).first()
     sender = newsletter.sender
     recipients = newsletter.recipients
@@ -37,7 +35,7 @@ def send_newsletter(newsletter_id):
     message = newsletter.message
     tags = newsletter.tags
     campaign = newsletter.campaign
-    response = mailgun_send_newsletter(mg_api_private, mg_domain, sender, recipients, subject, message, tags, campaign)
+    response = mailgun_send_newsletter(sender, recipients, subject, message, tags, campaign)
     return response
 
 

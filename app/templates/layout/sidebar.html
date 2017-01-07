@@ -16,7 +16,7 @@
                     <a class="dropdown-item" href="{{ url_for('newsletters_index') }}"><i
                             class="fa fa-envelope-o fa-fw"></i> Newsletters</a>
                     <a class="dropdown-item" href="{{ url_for('settings_profile') }}"><i class="fa fa-user fa-fw"></i>
-                        Profile</a>
+                        Settings</a>
                     {% if session['admin'] == True %}
                         <a class="dropdown-item" href="{{ url_for('admin_index') }}"><i
                                 class="fa fa-dashboard fa-fw"></i> Admin</a>
@@ -41,16 +41,20 @@
                 <li>
                     <a href="{{ url_for('newsletters_index') }}"><i class="fa fa-envelope-o fa-fw"></i> Newsletters</a>
                 </li>
-                <li>
-                    <a href="{{ url_for('settings_profile') }}"><i class="fa fa-user fa-fw"></i> Profile</a>
-                </li>
+                <li><a href="{{ url_for('mailing_lists_index') }}"><i class="fa fa-group fa-fw"></i> Mailing Lists</a></li>
+                <li><a href="{{ url_for('settings_profile') }}"><i class="fa fa-user fa-fw"></i> Profile</a></li>
+
                 {% if session['admin'] == True %}
                     <li id="admin_index">
                         <a href="{{ url_for('admin_index') }}"><i class="fa fa-dashboard fa-fw"></i> Admin</a>
                     </li>
                 {% endif %}
-                <li><hr></li>
-                <li><hr></li>
+                <li>
+                    <hr>
+                </li>
+                <li>
+                    <hr>
+                </li>
                 <li><a class="dropdown-item" href="/logout"> <i class="fa fa-power-off icon"></i> Logout </a></li>
             </ul>
         </nav>

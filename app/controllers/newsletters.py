@@ -19,11 +19,12 @@ def newsletters_index():
 @login_required
 def newsletters_add():
     from app.models.Mailgun_Internal import mailgun_get_groups, mailgun_get_campaigns
+    app_domain = app.config['APP_DOMAIN']
     mg_sender = session['mg_sender']
     mailgun_campaigns = mailgun_get_campaigns()
     recipients = mailgun_get_groups()
     return render_template('newsletters/add.html', recipients=recipients, mailgun_campaigns=mailgun_campaigns,
-                           mg_sender=mg_sender)
+                           mg_sender=mg_sender, app_domain=app_domain)
 
 
 @app.route('/newsletters/edit/<newsletter_id>', methods=['GET', 'POST'])
@@ -31,6 +32,7 @@ def newsletters_add():
 def newsletters_edit(newsletter_id):
     from app.models.Newsletters import edit_newsletter
     from app.models.Mailgun_Internal import mailgun_get_groups, mailgun_get_campaigns
+    app_domain = app.config['APP_DOMAIN']
     username = session['username']
     mg_sender = session['mg_sender']
     recipients = mailgun_get_groups()
@@ -42,7 +44,7 @@ def newsletters_edit(newsletter_id):
         newsletter_username = "Bad Value"
     if username == newsletter_username:
         return render_template('newsletters/edit.html', newsletter_data=newsletter_data, mg_sender=mg_sender,
-                               username=username, recipients=recipients, mailgun_campaigns=mailgun_campaigns)
+                               username=username, recipients=recipients, mailgun_campaigns=mailgun_campaigns, app_domain=app_domain)
     else:
         return redirect(url_for('newsletters_index'))
 

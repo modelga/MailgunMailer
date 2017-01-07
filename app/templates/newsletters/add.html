@@ -19,13 +19,16 @@
                     Groups</label>
                     <div class="col-sm-10">
                         {% if recipients |length < 1 %}
-                        <input id="recipients" name="recipients" type="text" class="form-control" value="recipient@example.com">
+                            <input id="recipients" name="recipients" type="text" class="form-control"
+                                   value="recipient@example.com">
                         {% else %}
-                        <select class="c-select form-control boxed" id="recipients" name="recipients">
-                            {% for recipient in recipients %}
-                                <option value="{{ recipient }}">{{ recipient }}</option>
-                            {% endfor %}
-                        </select>
+                            <select class="c-select form-control boxed" id="recipients" name="recipients">
+                                {% for recipient in recipients %}
+                                    <option value="{{ recipient['address'] }}">{{ recipient['address'] }} |
+                                        ({{ recipient['members_count'] }} Users)
+                                    </option>
+                                {% endfor %}
+                            </select>
                         {% endif %}
                     </div>
                 </div>
@@ -74,21 +77,33 @@
     <script>
         tinymce.init({
             selector: 'textarea',
+            relative_urls: false,
+            convert_urls: false,
+            remove_script_host : false,
             height: 500,
             plugins: [
                 "advlist autolink lists link image charmap print preview anchor",
                 "searchreplace visualblocks code fullscreen",
                 "insertdatetime table contextmenu paste imagetools"
             ],
-            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code preview | Unsubscribe_Newsletter",
+            toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code preview | Unsubscribe_Newsletter | Signature",
             setup: function (editor) {
-                editor.addButton('Unsubscribe_Newsletter', {
-                    text: 'Newsletter Unsubscribe',
-                    icon: false, onclick: function () {
-                        editor.insertContent('<a href = %mailing_list_unsubscribe_url%>Unsubscribe</a>');
-                    }
-                });
-            },
+                [
+                    editor.addButton('Unsubscribe_Newsletter', {
+                        text: 'Newsletter Unsubscribe',
+                        icon: false, onclick: function () {
+                            editor.insertContent('<a href = %mailing_list_unsubscribe_url%>Unsubscribe</a>');
+                        }
+                    }),
+                    editor.addButton('Signature', {
+                        text: 'Signature',
+                        icon: false, onclick: function () {
+                            editor.insertContent('<br><p>Your Name<br>Your E-Mail<br>Your Phone</p>');
+                        }
+                    })
+
+                ]
+            }
         });
     </script>
 {% endblock %}

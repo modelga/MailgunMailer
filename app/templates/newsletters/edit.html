@@ -23,11 +23,10 @@
                         {% else %}
                         <select class="c-select form-control boxed" id="recipients" name="recipients">
                             {% for recipient in recipients %}
-                                {% if  recipient == newsletter_data['recipients'] %}
-                                    <option value="{{ recipient }}"
-                                            selected="selected">{{ recipient }}</option>
+                                {% if  recipient['address'] == newsletter_data['recipients'] %}
+                                    <option value="{{ recipient['address'] }}" selected="selected">{{ recipient['address'] }} | ({{ recipient['members_count'] }} Users)</option>
                                 {% else %}
-                                    <option value="{{ recipient }}">{{ recipient }}</option>
+                                    <option value="{{ recipient['address'] }}">{{ recipient['address'] }} | ({{ recipient['members_count'] }} Users)</option>
                                 {% endif %}
                             {% endfor %}
                         </select>
@@ -89,6 +88,9 @@
     <script>
         tinymce.init({
             selector: 'textarea',
+            relative_urls: false,
+            convert_urls: false,
+            remove_script_host : false,
             height: 500,
             plugins: [
                 "advlist autolink lists link image charmap print preview anchor",
@@ -103,7 +105,7 @@
                         editor.insertContent('<a href = %mailing_list_unsubscribe_url%>Unsubscribe</a>');
                     }
                 });
-            },
+            }
         });
     </script>
 {% endblock %}
