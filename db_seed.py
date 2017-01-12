@@ -7,16 +7,16 @@ try:
 except:
     print("BAD : Problem creating tables. Check DB connection parameters")
 
-# print("\nCreating user Admin with username/pass : admin@example.com/admin")
-# try:
-#     admin = User('1', 'admin@example.com', '$2b$12$0wT4k2MD5r7tcTmADJ1.ROdTNKIff2TDFIXxtXiReXauBqkDaQpgq', 'Mailer',
-#                  'Admin', 'Mailer', 'www.example.com', 'key-123456789', 'newsletter.example.com',
-#                  'Example.com <postmaster@example.com>', 'e64c7d89f26bd1972efa854d13d7dd61', True)
-#     db.session.add(admin)
-#     db.session.commit()
-#     print("OK  : User Admin created")
-# except:
-#     print("BAD : Problem in User creation")
+print("\nCreating user Admin with username/pass : admin@example.com/admin")
+try:
+    admin = User('1', 'admin@example.com', '$2b$12$0wT4k2MD5r7tcTmADJ1.ROdTNKIff2TDFIXxtXiReXauBqkDaQpgq', 'Mailer',
+                 'Admin', 'Mailer', 'www.example.com', 'key-123456789', 'newsletter.example.com',
+                 'Example.com <postmaster@example.com>', 'e64c7d89f26bd1972efa854d13d7dd61', True)
+    db.session.add(admin)
+    db.session.commit()
+    print("OK  : User Admin created")
+except:
+    print("BAD : Problem in User creation")
 #
 # print("\nCreating example Newsletter for admin user")
 # try:
